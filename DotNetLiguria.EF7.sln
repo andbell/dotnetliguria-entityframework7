@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33103.201
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetLiguria.EF7", "DotNetLiguria.EF7\DotNetLiguria.EF7.csproj", "{341AC82D-3AA9-41BF-8878-FAE501B9B452}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{341AC82D-3AA9-41BF-8878-FAE501B9B452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341AC82D-3AA9-41BF-8878-FAE501B9B452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341AC82D-3AA9-41BF-8878-FAE501B9B452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341AC82D-3AA9-41BF-8878-FAE501B9B452}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27AD2E16-41AB-4388-8EEE-968E4B906B62}
+	EndGlobalSection
+EndGlobal
