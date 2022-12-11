@@ -8,4 +8,6 @@ public class Movie
     public bool SerieTV { get; set; }
     public string Abstract { get; set; }
     public string FullData { get; set; }
+    public List<Genre> Genres { get; set; }
+    public Cast Cast { get; set; }
 }
