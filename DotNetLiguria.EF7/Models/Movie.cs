@@ -1,4 +1,6 @@
-﻿namespace DotNetLiguria.EF7.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DotNetLiguria.EF7.Models;
 
 public class Movie
 {
@@ -9,5 +11,6 @@ public class Movie
     public string Abstract { get; set; }
     public string FullData { get; set; }
     public List<Genre> Genres { get; set; }
+
     public Cast Cast { get; set; }
 }
