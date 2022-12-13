@@ -40,6 +40,7 @@ public class MovieContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new MovieConfiguration());
+        modelBuilder.ApplyConfiguration(new SerieTvConfiguration());
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
     }
 }

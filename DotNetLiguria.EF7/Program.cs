@@ -8,11 +8,16 @@ internal class Program
     static void Main(string[] args)
     {
         using var db = new MovieContext();
+       
+        GetAllMovies(db);
 
-        AddMovie(db);
-        //GetAllMovies(db);
+        //AddMovie(db);
+        AddSerieTv(db);
+
         //ExecuteUpdate(db);
-        //ExecuteDelete(db);
+        //ExecuteDelete(db, 2);
+
+        Console.ReadLine();
     }
 
     /// <summary>
@@ -22,9 +27,10 @@ internal class Program
     static void GetAllMovies(MovieContext db)
     {
         // Get all movies
-        var movies = db.Movies.ToList();
+        var movies = db.Movies.Select(m => new { m.Id,  m.Title, m.Year }).ToList();
+        
         foreach (var movie in movies)
-            Console.WriteLine(movie.Title);
+            Console.WriteLine($"{movie.Title} ({movie.Year}) - ID: {movie.Id}");
     }
 
     /// <summary>
@@ -33,7 +39,6 @@ internal class Program
     /// <param name="db"></param>
     static void AddMovie(MovieContext db)
     {
-        // Insert a Movie
         var newMovie = new Movie
         {
             Title = "Interstellar",
@@ -57,14 +62,52 @@ internal class Program
         db.Add(newMovie);
         db.SaveChanges();
     }
+
+    /// <summary>
+    /// Insert a SerieTV
+    /// </summary>
+    /// <param name="db"></param>
+    static void AddSerieTv(MovieContext db)
+    {
+        var newSerieTv = new SerieTv
+        {
+            Title = "Dark",
+            Year = 2018,
+            SerieTV = true,
+            Abstract = "One of the best serie TV ever!",
+            Cast = new Cast
+            {
+                Actors = new List<Person>
+                {
+                    new Person { FullName = "Louis Hofmann" },
+                    new Person { FullName = "Maja Schöne" },
+                    new Person { FullName = "Jördis Triebel" },
+                },
+                Directors = new List<Person>
+                {
+                    new Person { FullName = "Baran bo Odar" },
+                }
+            },
+            Seasons = new Seasons
+            {
+                Episodes = new List<Episode>
+                {
+                    new Episode { Title = "Episode 1", Duration = 45, Number = 1, Season = 1 },
+                    new Episode { Title = "Episode 2", Duration = 45, Number = 2, Season = 2 },
+                }
+            }
+        };
+        db.Add(newSerieTv);
+        db.SaveChanges();
+    }
     
     /// <summary>
     /// Bulk delete
     /// </summary>
     /// <param name="db"></param>
-    static void ExecuteDelete(MovieContext db)
+    static void ExecuteDelete(MovieContext db, int movieId)
     {
-        db.Movies.Where(m => m.Id == 1).ExecuteDelete();
+        db.Movies.Where(m => m.Id == movieId).ExecuteDelete();
     }
 
     /// <summary>

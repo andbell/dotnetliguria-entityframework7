@@ -4,6 +4,7 @@ using DotNetLiguria.EF7;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetLiguria.EF7.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    partial class MovieContextModelSnapshot : ModelSnapshot
+    [Migration("20221213085055_AddSerieTvMigration")]
+    partial class AddSerieTvMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,50 +164,35 @@ namespace DotNetLiguria.EF7.Migrations
 
             modelBuilder.Entity("DotNetLiguria.EF7.Models.SerieTv", b =>
                 {
-                    b.OwnsOne("DotNetLiguria.EF7.Models.Seasons", "Seasons", b1 =>
+                    b.OwnsMany("DotNetLiguria.EF7.Models.Episode", "Episodes", b1 =>
                         {
                             b1.Property<int>("SerieTvId")
                                 .HasColumnType("int");
 
-                            b1.HasKey("SerieTvId");
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
 
-                            b1.ToTable("Movies");
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
 
-                            b1.ToJson("Seasons");
+                            b1.Property<int>("Number")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Season")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Title")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("SerieTvId", "Id");
+
+                            b1.ToTable("Episode");
 
                             b1.WithOwner()
                                 .HasForeignKey("SerieTvId");
-
-                            b1.OwnsMany("DotNetLiguria.EF7.Models.Episode", "Episodes", b2 =>
-                                {
-                                    b2.Property<int>("SeasonsSerieTvId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("Number")
-                                        .HasColumnType("int");
-
-                                    b2.Property<string>("Season")
-                                        .HasColumnType("nvarchar(max)");
-
-                                    b2.Property<string>("Title")
-                                        .HasColumnType("nvarchar(max)");
-
-                                    b2.HasKey("SeasonsSerieTvId", "Id");
-
-                                    b2.ToTable("Movies");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("SeasonsSerieTvId");
-                                });
-
-                            b1.Navigation("Episodes");
                         });
 
-                    b.Navigation("Seasons");
+                    b.Navigation("Episodes");
                 });
 
             modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
