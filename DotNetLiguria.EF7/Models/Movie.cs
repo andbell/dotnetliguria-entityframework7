@@ -1,6 +1,9 @@
-﻿namespace DotNetLiguria.EF7.Models;
+﻿using DotNetLiguria.EF7.Contracts;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class Movie
+namespace DotNetLiguria.EF7.Models;
+
+public class Movie : IHasRetrieved
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -10,4 +13,7 @@ public class Movie
     public List<Genre> Genres { get; set; }
 
     public Cast Cast { get; set; }
+
+    [NotMapped]
+    public DateTime Retrieved { get; set; }
 }

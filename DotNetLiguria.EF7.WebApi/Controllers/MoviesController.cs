@@ -13,6 +13,8 @@ namespace DotNetLiguria.EF7.WebApi.Controllers
         public MoviesController(MovieContext context)
         {
             _context = context;
+            
+            
         }
 
         [HttpPost("movie")]
@@ -86,6 +88,15 @@ namespace DotNetLiguria.EF7.WebApi.Controllers
         {
             var movies = await _context.Movies.Select(x => new {x.Id, x.Title, x.Year}).ToListAsync();
             return Ok(movies);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Movie>> GetMovieById(int id)
+        {
+            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.Id == id);
+
+            Console.WriteLine($"Movie '{movie.Title}' was retrieved at '{movie.Retrieved.ToLocalTime()}'");
+            return Ok(movie);
         }
 
         [HttpDelete]

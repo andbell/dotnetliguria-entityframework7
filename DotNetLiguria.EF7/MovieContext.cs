@@ -1,8 +1,9 @@
 ﻿using DotNetLiguria.EF7.Configurations;
+using DotNetLiguria.EF7.Conventions;
 using DotNetLiguria.EF7.Interceptors;
 using DotNetLiguria.EF7.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Logging;
 
 namespace DotNetLiguria.EF7;
 
@@ -28,13 +29,18 @@ public class MovieContext : DbContext
             // o taggare ogni query eseguita
             //.AddInterceptors(new TaggedQueryCommandInterceptor())
             .AddInterceptors(new MyMaterializationInterceptor())
+            .AddInterceptors(new SetRetrievedInterceptor())
 
             // Require the package "Microsoft.EntityFrameworkCore.Proxies" - viene abilitato il caricamento lazy per qualsiasi proprietà di navigazione che può essere sottoposta a override (virtual)
             //.UseLazyLoadingProxies()
 
+            .UseLoggerFactory(loggerFactory)
+
             // usa SqlServer
             .UseSqlServer(@"Server=.;Database=EF7;Trusted_Connection=true;Encrypt=False");
     }
+
+    ILoggerFactory loggerFactory = new LoggerFactory();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,5 +49,13 @@ public class MovieContext : DbContext
         modelBuilder.ApplyConfiguration(new MovieConfiguration());
         modelBuilder.ApplyConfiguration(new SerieTvConfiguration());
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+
+        configurationBuilder.Conventions.Add(_ => new DiscriminatorLengthConvention());
+        configurationBuilder.Conventions.Add(_ => new MaxStringLengthConvention());
     }
 }
