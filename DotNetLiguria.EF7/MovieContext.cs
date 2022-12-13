@@ -1,5 +1,7 @@
-﻿using DotNetLiguria.EF7.Models;
+﻿using DotNetLiguria.EF7.Configurations;
+using DotNetLiguria.EF7.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace DotNetLiguria.EF7;
 
@@ -31,5 +33,13 @@ public class MovieContext : DbContext
             // usa SqlServer
             .UseSqlServer(@"Data Source=.;Initial Catalog=EF7;User ID=ef7;Password=qwertysecure;Encrypt=False",
                 providerOptions => { providerOptions.EnableRetryOnFailure(); });
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfiguration(new MovieConfiguration());
+        modelBuilder.ApplyConfiguration(new GenreConfiguration());
     }
 }
