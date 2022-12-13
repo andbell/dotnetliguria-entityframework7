@@ -8,10 +8,9 @@ internal class MovieConfiguration : IEntityTypeConfiguration<Movie>
 {
     public void Configure(EntityTypeBuilder<Movie> builder)
     {
-        builder.UseTphMappingStrategy();
+        
         builder.ToTable("Movies");
         builder.HasKey(m => m.Id);
-        builder.HasDiscriminator(x => x.SerieTV).HasValue(false);
         builder.Property(m => m.Id).HasColumnName("MovieId");
         builder.Property(m => m.Title).HasMaxLength(250).IsRequired();
         builder.Property(m => m.Year).IsRequired();
@@ -22,5 +21,11 @@ internal class MovieConfiguration : IEntityTypeConfiguration<Movie>
             cast.OwnsMany(c => c.Actors);
             cast.OwnsMany(c => c.Directors);
         });
+
+        builder.UseTphMappingStrategy();
+        builder.HasDiscriminator(x => x.SerieTV).HasValue(false);
+
+        // builder.UseTpcMappingStrategy();
+        // builder.UseTptMappingStrategy();
     }
 }

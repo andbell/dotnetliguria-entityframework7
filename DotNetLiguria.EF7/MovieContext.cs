@@ -1,7 +1,8 @@
 ﻿using DotNetLiguria.EF7.Configurations;
+using DotNetLiguria.EF7.Interceptors;
 using DotNetLiguria.EF7.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+
 
 namespace DotNetLiguria.EF7;
 
@@ -26,13 +27,13 @@ public class MovieContext : DbContext
             //.AddInterceptors(new AadAuthenticationInterceptor())
             // o taggare ogni query eseguita
             //.AddInterceptors(new TaggedQueryCommandInterceptor())
+            .AddInterceptors(new MyMaterializationInterceptor())
 
             // Require the package "Microsoft.EntityFrameworkCore.Proxies" - viene abilitato il caricamento lazy per qualsiasi proprietà di navigazione che può essere sottoposta a override (virtual)
             //.UseLazyLoadingProxies()
 
             // usa SqlServer
-            .UseSqlServer(@"Data Source=.;Initial Catalog=EF7;User ID=ef7;Password=qwertysecure;Encrypt=False",
-                providerOptions => { providerOptions.EnableRetryOnFailure(); });
+            .UseSqlServer(@"Server=.;Database=EF7;Trusted_Connection=true;Encrypt=False");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
