@@ -27,8 +27,8 @@ public class MovieContext : DbContext
             //.AddInterceptors(new AadAuthenticationInterceptor())
             // o taggare ogni query eseguita
             //.AddInterceptors(new TaggedQueryCommandInterceptor())
-            .AddInterceptors(new MyMaterializationInterceptor())
-            .AddInterceptors(new SetRetrievedInterceptor())
+            //.AddInterceptors(new MyMaterializationInterceptor())
+            //.AddInterceptors(new SetRetrievedInterceptor())
 
             // Require the package "Microsoft.EntityFrameworkCore.Proxies" - viene abilitato il caricamento lazy per qualsiasi proprietà di navigazione che può essere sottoposta a override (virtual)
             //.UseLazyLoadingProxies()
@@ -37,8 +37,6 @@ public class MovieContext : DbContext
             .UseSqlServer(@"Server=.;Database=EF7;Trusted_Connection=true;Encrypt=False")
                 .LogTo(Console.WriteLine, LogLevel.Information);
     }
-
-    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

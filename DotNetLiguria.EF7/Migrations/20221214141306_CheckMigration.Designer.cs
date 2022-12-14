@@ -12,42 +12,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetLiguria.EF7.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    [Migration("20221214072605_AddMovieInfoMigration")]
-    partial class AddMovieInfoMigration
+    [Migration("20221214141306_CheckMigration")]
+    partial class CheckMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "7.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DotNetLiguria.EF7.Models.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("GenreId");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("Genres", (string)null);
-                });
 
             modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
                 {
@@ -62,6 +38,11 @@ namespace DotNetLiguria.EF7.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
+                    b.Property<int?>("ComputedYear")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("int")
+                        .HasComputedColumnSql("JSON_VALUE(Info, '$.Year')");
+
                     b.Property<bool>("SerieTV")
                         .HasColumnType("bit");
 
@@ -70,10 +51,9 @@ namespace DotNetLiguria.EF7.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ComputedYear");
 
                     b.ToTable("Movies", (string)null);
 
@@ -87,13 +67,6 @@ namespace DotNetLiguria.EF7.Migrations
                     b.HasBaseType("DotNetLiguria.EF7.Models.Movie");
 
                     b.HasDiscriminator().HasValue(true);
-                });
-
-            modelBuilder.Entity("DotNetLiguria.EF7.Models.Genre", b =>
-                {
-                    b.HasOne("DotNetLiguria.EF7.Models.Movie", null)
-                        .WithMany("Genres")
-                        .HasForeignKey("MovieId");
                 });
 
             modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
@@ -164,8 +137,12 @@ namespace DotNetLiguria.EF7.Migrations
                             b1.Property<int>("MovieId")
                                 .HasColumnType("int");
 
-                            b1.Property<int>("Duration")
+                            b1.Property<int?>("Duration")
                                 .HasColumnType("int");
+
+                            b1.Property<string>("Genres")
+                                .HasMaxLength(512)
+                                .HasColumnType("nvarchar(512)");
 
                             b1.Property<string>("Nationality")
                                 .HasMaxLength(512)
@@ -175,7 +152,7 @@ namespace DotNetLiguria.EF7.Migrations
                                 .HasMaxLength(512)
                                 .HasColumnType("nvarchar(512)");
 
-                            b1.Property<int>("Year")
+                            b1.Property<int?>("Year")
                                 .HasColumnType("int");
 
                             b1.HasKey("MovieId");
@@ -218,13 +195,13 @@ namespace DotNetLiguria.EF7.Migrations
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("int");
 
-                                    b2.Property<int>("Duration")
+                                    b2.Property<int?>("Duration")
                                         .HasColumnType("int");
 
-                                    b2.Property<int>("Number")
+                                    b2.Property<int?>("Number")
                                         .HasColumnType("int");
 
-                                    b2.Property<int>("Season")
+                                    b2.Property<int?>("Season")
                                         .HasColumnType("int");
 
                                     b2.Property<string>("Title")
@@ -243,11 +220,6 @@ namespace DotNetLiguria.EF7.Migrations
                         });
 
                     b.Navigation("Seasons");
-                });
-
-            modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
-                {
-                    b.Navigation("Genres");
                 });
 #pragma warning restore 612, 618
         }

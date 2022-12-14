@@ -100,7 +100,9 @@ public class MoviesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Movie>>> GetAllMovies()
     {
-        var movies = await _context.Movies.Select(x => new {x.Id, x.Title, x.Info.Year}).ToListAsync();
+        var movies = await _context.Movies
+            .TagWith("Use robust plan")
+            .ToListAsync();
         return Ok(movies);
     }
 
@@ -122,7 +124,7 @@ public class MoviesController : ControllerBase
         if (actor is not null)
             query = query.Where(x => x.Cast.Actors.Any(a => a.FullName.Contains(actor)));
 
-        var movies = await query.Select(x => new { x.Id, x.Title, x.Info.Year }).ToListAsync();
+        var movies = await query.ToListAsync();
         return Ok(movies);
     }
 
@@ -134,7 +136,7 @@ public class MoviesController : ControllerBase
         if (movie is null)
             return NotFound();
 
-        Console.WriteLine($"Movie '{movie.Title}' was retrieved at '{movie.Retrieved.ToLocalTime()}'");
+        //Console.WriteLine($"Movie '{movie.Title}' was retrieved at '{movie.Retrieved.ToLocalTime()}'");
         return Ok(movie);
     }
 
@@ -148,7 +150,8 @@ public class MoviesController : ControllerBase
     [HttpPut("bulk")]
     public async Task<ActionResult> UpdateMovieBulk()
     {
-        await _context.Movies.Where(m => m.Info.Year == 2020).ExecuteUpdateAsync(u => u.SetProperty(p => p.Title, c => $"{c.Title} (2020)"));
+        await _context.Movies.Where(m => m.Info.Year == 2020)
+            .ExecuteUpdateAsync(u => u.SetProperty(p => p.Title, c => $"{c.Title} (2020)"));
         return NoContent();
     }
 
@@ -165,6 +168,6 @@ public class MoviesController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return Ok(movie);
+        return Ok();
     }
 }

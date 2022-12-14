@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetLiguria.EF7.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    [Migration("20221214082229_ComputedColumnMigration")]
-    partial class ComputedColumnMigration
+    [Migration("20221214135344_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
