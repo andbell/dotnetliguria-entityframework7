@@ -14,6 +14,9 @@ internal class MovieConfiguration : IEntityTypeConfiguration<Movie>
         builder.Property(m => m.Id).HasColumnName("MovieId");
         builder.Property(m => m.Title).HasMaxLength(250).IsRequired();
 
+        builder.Property("ComputedYear").HasComputedColumnSql("JSON_VALUE(Info, '$.Year')");
+        builder.HasIndex("ComputedYear");
+
         builder.OwnsOne(m => m.Cast, cast =>
         {
             cast.ToJson();

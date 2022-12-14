@@ -13,6 +13,8 @@ public class Movie : IHasRetrieved
     public Cast Cast { get; set; }
     public MovieInfo Info { get; set; }
 
+    public int? ComputedYear { get; set; }
+
     [NotMapped]
     public DateTime Retrieved { get; set; }
 }
