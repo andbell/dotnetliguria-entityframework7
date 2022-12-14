@@ -9,7 +9,6 @@ public class Movie : IHasRetrieved
     public string Title { get; set; }
     public bool SerieTV { get; set; }
     public string Abstract { get; set; }
-    public List<Genre> Genres { get; set; }
 
     public Cast Cast { get; set; }
     public MovieInfo Info { get; set; }

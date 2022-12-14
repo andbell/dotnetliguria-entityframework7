@@ -10,7 +10,6 @@ namespace DotNetLiguria.EF7;
 public class MovieContext : DbContext
 {
     public DbSet<Movie> Movies { get; set; }
-    public DbSet<Genre> Genres { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -47,7 +46,6 @@ public class MovieContext : DbContext
 
         modelBuilder.ApplyConfiguration(new MovieConfiguration());
         modelBuilder.ApplyConfiguration(new SerieTvConfiguration());
-        modelBuilder.ApplyConfiguration(new GenreConfiguration());
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

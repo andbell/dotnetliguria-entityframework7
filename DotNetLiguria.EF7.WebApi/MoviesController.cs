@@ -30,7 +30,8 @@ public class MoviesController : ControllerBase
                 Duration = 160,
                 Nationality = "USA",
                 Rated = "NO",
-                Year = 2014
+                Year = 2014,
+                Genres = "Fantascience, Adventure, Drama"
             },
             Cast = new Cast
             {
@@ -65,7 +66,8 @@ public class MoviesController : ControllerBase
                 Duration = 45,
                 Nationality = "German",
                 Rated = "14",
-                Year = 2018
+                Year = 2018,
+                Genres = "Fantasy, Horror"
             },
             Cast = new Cast
             {
@@ -124,12 +126,10 @@ public class MoviesController : ControllerBase
         return Ok(movies);
     }
 
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<Movie>> GetMovieById(int id)
+    [HttpGet("{movieId:int}")]
+    public async Task<ActionResult<Movie>> GetMovieById(int movieId)
     {
-        var movie = await _context.Movies
-            .Where(x => x.Id == id)
-            .SingleOrDefaultAsync();
+        var movie = await _context.Movies.FirstOrDefaultAsync(x => x.Id == movieId);
 
         if (movie is null)
             return NotFound();
@@ -145,10 +145,26 @@ public class MoviesController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut]
-    public async Task<ActionResult<List<Movie>>> UpdateMovie()
+    [HttpPut("bulk")]
+    public async Task<ActionResult> UpdateMovieBulk()
     {
         await _context.Movies.Where(m => m.Info.Year == 2020).ExecuteUpdateAsync(u => u.SetProperty(p => p.Title, c => $"{c.Title} (2020)"));
         return NoContent();
+    }
+
+    [HttpPut("{movieId:int}")]
+    public async Task<ActionResult<Movie>> UpdateMovie(int movieId)
+    {
+        var movie = await _context.Movies.SingleOrDefaultAsync(x => x.Id == movieId);
+
+        if (movie is null)
+            return NotFound();
+
+        movie.Info.Duration = 100;
+        movie.Cast.Actors.Add(new Person { FullName = "Andrea Belloni" });
+
+        await _context.SaveChangesAsync();
+
+        return Ok(movie);
     }
 }

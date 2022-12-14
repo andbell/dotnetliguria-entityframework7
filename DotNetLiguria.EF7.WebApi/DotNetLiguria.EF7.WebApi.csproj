@@ -17,4 +17,8 @@
     <ProjectReference Include="..\DotNetLiguria.EF7\DotNetLiguria.EF7.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
