@@ -9,153 +9,152 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DotNetLiguria.EF7.Migrations
+namespace DotNetLiguria.EF7.Migrations;
+
+[DbContext(typeof(MovieContext))]
+[Migration("20221213080547_FirstMigration")]
+partial class FirstMigration
 {
-    [DbContext(typeof(MovieContext))]
-    [Migration("20221213080547_FirstMigration")]
-    partial class FirstMigration
+    /// <inheritdoc />
+    protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+        modelBuilder
+            .HasAnnotation("ProductVersion", "7.0.0")
+            .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+        SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DotNetLiguria.EF7.Models.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("GenreId");
+        modelBuilder.Entity("DotNetLiguria.EF7.Models.Genre", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasColumnName("GenreId");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
+                b.Property<int?>("MovieId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasColumnType("nvarchar(40)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("MovieId");
+                b.HasIndex("MovieId");
 
-                    b.ToTable("Genres", (string)null);
-                });
+                b.ToTable("Genres", (string)null);
+            });
 
-            modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("MovieId");
+        modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasColumnName("MovieId");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Abstract")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Abstract")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullData")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("FullData")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("SerieTV")
-                        .HasColumnType("bit");
+                b.Property<bool>("SerieTV")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
+                b.Property<int>("Year")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Movies", (string)null);
-                });
+                b.ToTable("Movies", (string)null);
+            });
 
-            modelBuilder.Entity("DotNetLiguria.EF7.Models.Genre", b =>
-                {
-                    b.HasOne("DotNetLiguria.EF7.Models.Movie", null)
-                        .WithMany("Genres")
-                        .HasForeignKey("MovieId");
-                });
+        modelBuilder.Entity("DotNetLiguria.EF7.Models.Genre", b =>
+            {
+                b.HasOne("DotNetLiguria.EF7.Models.Movie", null)
+                    .WithMany("Genres")
+                    .HasForeignKey("MovieId");
+            });
 
-            modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
-                {
-                    b.OwnsOne("DotNetLiguria.EF7.Models.Cast", "Cast", b1 =>
-                        {
-                            b1.Property<int>("MovieId")
-                                .HasColumnType("int");
+        modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
+            {
+                b.OwnsOne("DotNetLiguria.EF7.Models.Cast", "Cast", b1 =>
+                    {
+                        b1.Property<int>("MovieId")
+                            .HasColumnType("int");
 
-                            b1.HasKey("MovieId");
+                        b1.HasKey("MovieId");
 
-                            b1.ToTable("Movies");
+                        b1.ToTable("Movies");
 
-                            b1.ToJson("Cast");
+                        b1.ToJson("Cast");
 
-                            b1.WithOwner()
-                                .HasForeignKey("MovieId");
+                        b1.WithOwner()
+                            .HasForeignKey("MovieId");
 
-                            b1.OwnsMany("DotNetLiguria.EF7.Models.Person", "Actors", b2 =>
-                                {
-                                    b2.Property<int>("CastMovieId")
-                                        .HasColumnType("int");
+                        b1.OwnsMany("DotNetLiguria.EF7.Models.Person", "Actors", b2 =>
+                            {
+                                b2.Property<int>("CastMovieId")
+                                    .HasColumnType("int");
 
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int");
+                                b2.Property<int>("Id")
+                                    .ValueGeneratedOnAdd()
+                                    .HasColumnType("int");
 
-                                    b2.Property<string>("FullName")
-                                        .HasColumnType("nvarchar(max)");
+                                b2.Property<string>("FullName")
+                                    .HasColumnType("nvarchar(max)");
 
-                                    b2.HasKey("CastMovieId", "Id");
+                                b2.HasKey("CastMovieId", "Id");
 
-                                    b2.ToTable("Movies");
+                                b2.ToTable("Movies");
 
-                                    b2.WithOwner()
-                                        .HasForeignKey("CastMovieId");
-                                });
+                                b2.WithOwner()
+                                    .HasForeignKey("CastMovieId");
+                            });
 
-                            b1.OwnsMany("DotNetLiguria.EF7.Models.Person", "Directors", b2 =>
-                                {
-                                    b2.Property<int>("CastMovieId")
-                                        .HasColumnType("int");
+                        b1.OwnsMany("DotNetLiguria.EF7.Models.Person", "Directors", b2 =>
+                            {
+                                b2.Property<int>("CastMovieId")
+                                    .HasColumnType("int");
 
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int");
+                                b2.Property<int>("Id")
+                                    .ValueGeneratedOnAdd()
+                                    .HasColumnType("int");
 
-                                    b2.Property<string>("FullName")
-                                        .HasColumnType("nvarchar(max)");
+                                b2.Property<string>("FullName")
+                                    .HasColumnType("nvarchar(max)");
 
-                                    b2.HasKey("CastMovieId", "Id");
+                                b2.HasKey("CastMovieId", "Id");
 
-                                    b2.ToTable("Movies");
+                                b2.ToTable("Movies");
 
-                                    b2.WithOwner()
-                                        .HasForeignKey("CastMovieId");
-                                });
+                                b2.WithOwner()
+                                    .HasForeignKey("CastMovieId");
+                            });
 
-                            b1.Navigation("Actors");
+                        b1.Navigation("Actors");
 
-                            b1.Navigation("Directors");
-                        });
+                        b1.Navigation("Directors");
+                    });
 
-                    b.Navigation("Cast");
-                });
+                b.Navigation("Cast");
+            });
 
-            modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
-                {
-                    b.Navigation("Genres");
-                });
+        modelBuilder.Entity("DotNetLiguria.EF7.Models.Movie", b =>
+            {
+                b.Navigation("Genres");
+            });
 #pragma warning restore 612, 618
-        }
     }
 }

@@ -34,13 +34,12 @@ public class MovieContext : DbContext
             // Require the package "Microsoft.EntityFrameworkCore.Proxies" - viene abilitato il caricamento lazy per qualsiasi proprietà di navigazione che può essere sottoposta a override (virtual)
             //.UseLazyLoadingProxies()
 
-            .UseLoggerFactory(loggerFactory)
-
             // usa SqlServer
-            .UseSqlServer(@"Server=.;Database=EF7;Trusted_Connection=true;Encrypt=False");
+            .UseSqlServer(@"Server=.;Database=EF7;Trusted_Connection=true;Encrypt=False")
+                .LogTo(Console.WriteLine, LogLevel.Information);
     }
 
-    ILoggerFactory loggerFactory = new LoggerFactory();
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
