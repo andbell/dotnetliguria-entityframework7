@@ -1,8 +1,6 @@
-using Castle.Components.DictionaryAdapter;
 using DotNetLiguria.EF7.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DotNetLiguria.EF7.WebApi.Controllers;
 
@@ -101,6 +99,7 @@ public class MoviesController : ControllerBase
     public async Task<ActionResult<List<Movie>>> GetAllMovies()
     {
         var movies = await _context.Movies
+            .Select(x => new { x.Title, x.Info.Year, x.Id })
             .TagWith("Use robust plan")
             .ToListAsync();
         return Ok(movies);
