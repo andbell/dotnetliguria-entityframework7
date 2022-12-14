@@ -124,7 +124,7 @@ public class MoviesController : ControllerBase
         return Ok(movies);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Movie>> GetMovieById(int id)
     {
         var movie = await _context.Movies

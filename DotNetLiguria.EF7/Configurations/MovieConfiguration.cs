@@ -26,10 +26,12 @@ internal class MovieConfiguration : IEntityTypeConfiguration<Movie>
             info.ToJson();
         });
 
-        builder.UseTphMappingStrategy();
+
+        // Remove for TPC
         builder.HasDiscriminator(x => x.SerieTV).HasValue(false);
 
-        // builder.UseTpcMappingStrategy();
+        builder.UseTphMappingStrategy();
+        //builder.UseTpcMappingStrategy();
         // builder.UseTptMappingStrategy();
     }
 }
