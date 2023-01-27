@@ -9,7 +9,7 @@ internal class MovieConfiguration : IEntityTypeConfiguration<Movie>
     public void Configure(EntityTypeBuilder<Movie> builder)
     {
         builder.ToTable("Movies");
-        // builder.ToTable(tb => tb.HasTrigger(""));
+        // builder.ToTable(tb => tb.HasTrigger("TriggerName"));
         
         builder.HasKey(m => m.Id);
         
@@ -31,6 +31,12 @@ internal class MovieConfiguration : IEntityTypeConfiguration<Movie>
             info.ToJson();
         });
 
+        builder.OwnsOne(m => m.Seasons, seasons =>
+        {
+            seasons.ToJson();
+            seasons.OwnsMany(s => s.Episodes);
+
+        });
 
         // Remove for TPC
         builder.HasDiscriminator(x => x.SerieTV).HasValue(false);

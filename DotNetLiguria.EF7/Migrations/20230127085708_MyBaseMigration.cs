@@ -5,7 +5,7 @@
 namespace DotNetLiguria.EF7.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class MyBaseMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,6 @@ namespace DotNetLiguria.EF7.Migrations
                     Title = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     SerieTV = table.Column<bool>(type: "bit", nullable: false),
                     Abstract = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
-                    ComputedYear = table.Column<int>(type: "int", nullable: true, computedColumnSql: "JSON_VALUE(Info, '$.Year')"),
                     Cast = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Info = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Seasons = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -28,11 +27,6 @@ namespace DotNetLiguria.EF7.Migrations
                 {
                     table.PrimaryKey("PK_Movies", x => x.MovieId);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Movies_ComputedYear",
-                table: "Movies",
-                column: "ComputedYear");
         }
 
         /// <inheritdoc />

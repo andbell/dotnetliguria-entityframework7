@@ -16,83 +16,11 @@ public class MoviesController : ControllerBase
     }
 
     [HttpPost("movie")]
-    public async Task<ActionResult<Movie>> AddMovie()
+    public async Task<ActionResult<Movie>> AddMovie(Movie movie)
     {
-        var newMovie = new Movie
-        {
-            Title = "Interstellar",
-            SerieTV = false,
-            Abstract = "One of the best movie ever!",
-            Info = new MovieInfo
-            {
-                Duration = 160,
-                Nationality = "USA",
-                Rated = "NO",
-                Year = 2014,
-                Genres = "Fantascience, Adventure, Drama"
-            },
-            Cast = new Cast
-            {
-                Actors = new List<Person>
-                {
-                    new Person { FullName = "Matthew McConaughey" },
-                    new Person { FullName = "Anne Hathaway" },
-                    new Person { FullName = "Jessica Chastain" },
-                },
-                Directors = new List<Person>
-                {
-                    new Person { FullName = "Christopher Nolan" },
-                }
-            }
-        };
-        _context.Add(newMovie);
+        _context.Add(movie);
         await _context.SaveChangesAsync();
-        
-        return Ok(newMovie);
-    }
-
-    [HttpPost("serietv")]
-    public async Task<ActionResult<Movie>> AddSerieTv()
-    {
-        var newSerieTv = new SerieTv
-        {
-            Title = "Dark",
-            SerieTV = true,
-            Abstract = "One of the best serie TV ever!",
-            Info = new MovieInfo
-            {
-                Duration = 45,
-                Nationality = "German",
-                Rated = "14",
-                Year = 2018,
-                Genres = "Fantasy, Horror"
-            },
-            Cast = new Cast
-            {
-                Actors = new List<Person>
-            {
-                new Person { FullName = "Louis Hofmann" },
-                new Person { FullName = "Maja Schöne" },
-                new Person { FullName = "Jördis Triebel" },
-            },
-                Directors = new List<Person>
-            {
-                new Person { FullName = "Baran bo Odar" },
-            }
-            },
-            Seasons = new Seasons
-            {
-                Episodes = new List<Episode>
-            {
-                new Episode { Title = "Episode 1", Duration = 45, Number = 1, Season = 1 },
-                new Episode { Title = "Episode 2", Duration = 45, Number = 2, Season = 2 },
-            }
-            }
-        };
-        _context.Add(newSerieTv);
-        await _context.SaveChangesAsync();
-
-        return Ok(newSerieTv);
+        return Ok(movie);
     }
 
     [HttpGet]

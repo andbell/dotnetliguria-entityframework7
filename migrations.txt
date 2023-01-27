@@ -3,3 +3,160 @@ dotnet tool list --global
 
 dotnet ef migrations add MyBaseMigration --context MovieContext
 dotnet ef database update
+
+
+
+MOVIES:
+
+{
+  "title": "Interstellar",
+  "serieTV": false,
+  "abstract": "One of the best movie ever!",
+  "cast": {
+    "actors": [
+      {
+        "fullName": "Matthew McConaughey"
+      },
+      {
+        "fullName": "Anne Hathaway"
+      },
+      {
+        "fullName": "Jessica Chastain"
+      }
+    ],
+    "directors": [
+      {
+        "fullName": "Christopher Nolan"
+      }
+    ]
+  },
+  "info": {
+    "nationality": "USA",
+    "year": 2014,
+    "duration": 160,
+    "rated": "NO",
+    "genres": "Fantascience, Adventure, Drama"
+  }
+}
+
+{
+  "title": "Donnie Darko",
+  "serieTV": false,
+  "abstract": "Absolutely to see!",
+  "cast": {
+    "actors": [
+      {
+        "fullName": "Jake Gyllenhaal"
+      },
+      {
+        "fullName": "Holmes Osborne"
+      },
+      {
+        "fullName": "Maggie Gyllenhaal"
+      },
+      {
+        "fullName": "Patrick Swayze"
+      }
+    ],
+    "directors": [
+      {
+        "fullName": "Richard Kelly"
+      }
+    ]
+  },
+  "info": {
+    "nationality": "USA",
+    "year": 2001,
+    "duration": 113,
+    "rated": "R",
+    "genres": "Mystery, Sci-Fi, Drama"
+  }
+}
+
+{
+  "title": "Dark",
+  "serieTV": true,
+  "abstract": "One of the best serie TV ever!",
+  "cast": {
+    "actors": [
+      {
+        "fullName": "Louis Hofmann"
+      },
+      {
+        "fullName": "Maja Schöne"
+      },
+      {
+        "fullName": "Jördis Triebel"
+      }
+    ],
+    "directors": [
+      {
+        "fullName": "Baran bo Odar"
+      }
+    ]
+  },
+  "info": {
+    "nationality": "German",
+    "year": 2018,
+    "duration": 45,
+    "rated": "14",
+    "genres": "Fantasy, Horror"
+  }
+}
+
+
+{
+  "title": "Stranger Things",
+  "serieTV": true,
+  "abstract": "When a young boy disappears, his mother, a police chief and his friends must confront terrifying supernatural forces in order to get him back.",
+  "cast": {
+    "actors": [
+      {
+        "fullName": "Millie Bobby Brown"
+      },
+      {
+        "fullName": "Wynona Rider"
+      },
+      {
+        "fullName": "Gaten Matarazzo"
+      },
+      {
+        "fullName": "Natalia Dayer"
+      }
+    ],
+    "directors": [
+      {
+        "fullName": "Matt Duffer"
+      },
+      {
+        "fullName": "Ross Duffer"
+      },
+      {
+        "fullName": "Shawn Levy"
+      }
+    ]
+  },
+  "seasons": {
+    "episodes": [
+      {
+        "number": 1,
+        "title": "Chapter One: The Vanishing of Will Byers",
+        "season": 1,
+        "duration": 50
+      },
+      {
+        "number": 2,
+        "title": "Chapter Two: The Weirdo on Maple Street",
+        "season": 1,
+        "duration": 52
+      }
+    ]
+  },
+  "info": {
+    "nationality": "USA",
+    "year": 2016,
+    "duration": 60,
+    "rated": "TV-14",
+    "genres": "Fantasy, Horror, Drama"
+  }
+}
